@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Book  # ✅ Ensure this line is here
+from .models import Book;  # ✅ Ensure this line is here
 
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
