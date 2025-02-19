@@ -18,3 +18,8 @@ class LibraryDetailView(DetailView):
     model = Library
     template_name = "relationship_app/library_detail.html"
     context_object_name = "library"
+
+
+def library_detail(request, id):
+    return render(request, 'relationship_app/library_detail.html', {'id': id})
+
