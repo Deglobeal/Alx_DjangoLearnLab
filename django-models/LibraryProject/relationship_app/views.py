@@ -1,14 +1,19 @@
+from django.views.generic import DetailView  
 from django.shortcuts import render
-from .models import Book
-from .models import Library
+from .models import Book, Library
 
-# Create your views here.
-def List_books_veiws(request):
-    books = Book.objects.select_related('author').all()  # Optimized query using select_related
-    return render(request, 'list_books.html', {'books': books}) 
+
+def home_view(request):
+    """Simple home page"""
+    return render(request, "relationship_app/home.html")
+
+def list_books_view(request):
+    """Function-based view to list all books"""
+    books = Book.objects.all()  #  Ensures books are retrieved
+    return render(request, "relationship_app/list_books.html", {"books": books})  #  Correct template path
 
 class LibraryDetailView(DetailView):
     """Class-based view to display a library's details"""
     model = Library
-    template_name = 'library_detail.html'
-    context_object_name = 'library'  # Name used in the template
+    template_name = "relationship_app/library_detail.html"
+    context_object_name = "library"
