@@ -11,7 +11,7 @@ def query_books_by_author(author_name):
     """Query all books by a specific author using ForeignKey"""
     try:
         author = Author.objects.get(name=author_name)
-        books = author.book_set.all()  # Using reverse relationship
+        books = Book.objects.filter(author=author)  # Using reverse relationship
         print(f"\nBooks by {author_name}:")
         for book in books:
             print(f"- {book.title}")
