@@ -4,9 +4,9 @@ from django.shortcuts import render
 from .models import Book, Library
 
 
-def home_view(request):
-    """Simple home page"""
-    return render(request, "relationship_app/home.html")
+# def home_view(request):
+#    """Simple home page"""
+#    return render(request, "relationship_app/home.html")
 
 def list_books(request):
     """Function-based view to list all books"""
