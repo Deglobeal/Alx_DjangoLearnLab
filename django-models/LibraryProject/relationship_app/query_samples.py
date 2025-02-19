@@ -5,43 +5,43 @@ import django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'LibraryProject.settings')
 django.setup()
 
-from django.shortcuts import get_object_or_404
 from relationship_app.models import Author, Book, Library, Librarian
 
 def query_books_by_author(author_name):
-    """Query all books by a specific author using ForeignKey relationship"""
-    author = get_object_or_404(Author, name=author_name)
-    books = author.book_set.all()  # Using default related name
-    print(f"\nBooks by {author_name}:")
-    for book in books:
-        print(f"- {book.title}")
+    """Query all books by a specific author using ForeignKey"""
+    try:
+        author = Author.objects.get(name=author_name)
+        books = author.book_set.all()  # Using reverse relationship
+        print(f"\nBooks by {author_name}:")
+        for book in books:
+            print(f"- {book.title}")
+    except Author.DoesNotExist:
+        print(f"\nAuthor '{author_name}' not found")
 
 def list_books_in_library(library_name):
-    """List all books in a library using ManyToMany relationship"""
-    library = get_object_or_404(Library, name=library_name)
-    books = library.books.all()
-    print(f"\nBooks in {library_name}:")
-    for book in books:
-        print(f"- {book.title}")
-
-def get_librarian_for_library(library_name):
-    """Retrieve librarian for a library using OneToOne relationship"""
-    library = get_object_or_404(Library, name=library_name)
+    """List all books in a library using ManyToMany"""
     try:
-        librarian = library.librarian  # Access via OneToOne relationship
+        library = Library.objects.get(name=library_name)  # <-- Explicit objects.get
+        books = library.books.all()
+        print(f"\nBooks in {library_name}:")
+        for book in books:
+            print(f"- {book.title}")
+    except Library.DoesNotExist:
+        print(f"\nLibrary '{library_name}' not found")
+
+def retrieve_librarian_for_library(library_name):
+    """Retrieve librarian for a library using OneToOne"""
+    try:
+        library = Library.objects.get(name=library_name)
+        librarian = Librarian.objects.get(library=library)
         print(f"\nLibrarian for {library_name}: {librarian.name}")
+    except Library.DoesNotExist:
+        print(f"\nLibrary '{library_name}' not found")
     except Librarian.DoesNotExist:
         print(f"\nNo librarian assigned to {library_name}")
 
-def main():
-    # Example usage - replace with your actual data
-    author_name = "J.K. Rowling"
-    library_name = "Central Public Library"
-    
-    # Execute queries
-    query_books_by_author(author_name)
-    list_books_in_library(library_name)
-    get_librarian_for_library(library_name)
-
 if __name__ == "__main__":
-    main()
+    # Example usage
+    query_books_by_author("J.K. Rowling")
+    list_books_in_library("Central Library")
+    retrieve_librarian_for_library("Central Library")
