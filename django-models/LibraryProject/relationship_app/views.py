@@ -3,6 +3,15 @@ from django.views.generic.detail import DetailView
 from django.shortcuts import render
 from .models import Book, Library
 from django.contrib.auth.decorators import login_required, user_passes_test
+# relationship_app/views.py
+from django.contrib.auth.forms import UserCreationForm
+from django.views.generic import CreateView
+from django.urls import reverse_lazy
+
+class RegisterView(CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy('login')  # Redirect to login after successful registration
+    template_name = 'register.html'
 
 
 def home_view(request):
