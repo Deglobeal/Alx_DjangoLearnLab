@@ -9,6 +9,8 @@ from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import permission_required
+from django.shortcuts import render, redirect
 
 class RegisterView(CreateView):
     form_class = UserCreationForm
@@ -65,5 +67,18 @@ def librarian_view(request):
 def member_view(request):
     return render(request, "relationship_app/member_view.html", {"role": "Member"})
 
+@permission_required('relationship_app.can_add_book')
+def add_book(request):
+    # Logic to add a book
+    return render(request, 'add_book.html')
 
+@permission_required('relationship_app.can_change_book')
+def edit_book(request, book_id):
+    # Logic to edit a book
+    return render(request, 'edit_book.html')
+
+@permission_required('relationship_app.can_delete_book')
+def delete_book(request, book_id):
+    # Logic to delete a book
+    return redirect('book_list')
 
