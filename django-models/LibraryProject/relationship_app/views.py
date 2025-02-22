@@ -3,7 +3,6 @@ from django.views.generic.detail import DetailView
 from django.shortcuts import render
 from .models import Book, Library
 from django.contrib.auth.decorators import login_required, user_passes_test
-# relationship_app/views.py
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
@@ -23,8 +22,8 @@ def home_view(request):
 
 def list_books(request):
     """Function-based view to list all books"""
-    books = Book.objects.all()  #  Ensures books are retrieved
-    return render(request, "relationship_app/list_books.html", {"books": books})  #  Correct template path
+    books = Book.objects.all()  #  this Ensures books are retrieved
+    return render(request, "relationship_app/list_books.html", {"books": books})  
 
 class LibraryDetailView(DetailView):
     """Class-based view to display a library's details"""
@@ -65,4 +64,6 @@ def librarian_view(request):
 @user_passes_test(is_member)
 def member_view(request):
     return render(request, "relationship_app/member_view.html", {"role": "Member"})
+
+
 
