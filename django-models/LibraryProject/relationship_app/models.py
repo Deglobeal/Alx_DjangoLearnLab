@@ -5,7 +5,6 @@ from django.dispatch import receiver
 
 # Create your models here.
 
-
 # Define roles
 ROLE_CHOICES = [
     ('Admin', 'Admin'),
@@ -29,7 +28,6 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.userprofile.save()
-
 
 # 1. ForeignKey Relationship
 class Author(models.Model):
@@ -62,19 +60,3 @@ class Librarian(models.Model):
         primary_key=True,
         related_name='librarian'
     )
-    
-    
-class Book(models.Model):
-    title = models.CharField(max_length=255)
-    author = models.CharField(max_length=255)
-    published_date = models.DateField()
-
-    class Meta:
-        permissions = [
-            ("can_add_book", "Can add book"),
-            ("can_change_book", "Can edit book"),
-            ("can_delete_book", "Can delete book"),
-        ]
-    
-    def __str__(self):
-        return self.names
