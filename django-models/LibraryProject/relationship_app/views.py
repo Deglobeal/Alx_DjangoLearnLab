@@ -2,7 +2,7 @@ from .models import Library
 from django.views.generic.detail import DetailView 
 from django.shortcuts import render, redirect
 from .models import Book, Library
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.views.generic import CreateView, DetailView
 from django.urls import reverse_lazy
@@ -52,8 +52,8 @@ def home_view(request):
     return render(request, 'relationship_app/home.html')
 
 def list_books(request):
-    books = Book.objects.all()  #  this Ensures books are retrieved
-    return render(request, 'list_books.html', {"books": books})  
+    books = Book.objects.all()
+    return render(request, 'relationship_app/list_books.html', {"books": books})
 
 class LibraryDetailView(DetailView):
     model = Library
@@ -83,23 +83,23 @@ def admin_view(request):
 @login_required
 @user_passes_test(is_librarian)
 def librarian_view(request):
-    return render(request, 'librarian_view.html', {"role": "Librarian"})
+    return render(request, 'relationship_app/librarian_view.html', {"role": "Librarian"})
 
 # Member View
 @login_required
 @user_passes_test(is_member)
 def member_view(request):
-    return render(request, 'member_view.html', {"role": "Member"})
+    return render(request, 'relationship_app/member_view.html', {"role": "Member"})
 
 @permission_required('relationship_app.can_add_book')
 def add_book(request):
     # Logic to add a book
-    return render(request, 'add_book.html')
+    return render(request, 'relationship_app/add_book.html')
 
 @permission_required('relationship_app.can_change_book')
 def edit_book(request, book_id):
     # Logic to edit a book
-    return render(request, 'edit_book.html')
+    return render(request, 'relationship_app/edit_book.html')
 
 @permission_required('relationship_app.can_delete_book')
 def delete_book(request, book_id):

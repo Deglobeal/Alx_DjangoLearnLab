@@ -7,6 +7,8 @@ from .views import RegisterView
 from . import views
 from .views import add_book, edit_book, delete_book
 
+from .views import LibraryDetailView, home_view, list_books, admin_view, librarian_view, member_view, add_book, edit_book, delete_book
+
 
 urlpatterns = [
     path("register/", views.register, name="register"),
