@@ -9,6 +9,7 @@ from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from .models import Book, Library
+from django.contrib.auth.decorators import permission_required
 
 def logout_view(request):
     logout(request)
