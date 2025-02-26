@@ -6,11 +6,13 @@ from django.contrib.auth.views import LoginView, LogoutView
 from .views import RegisterView
 from . import views
 from .views import add_book, edit_book, delete_book
-
+from django.contrib.auth.views import LoginView, LogoutView
 from .views import LibraryDetailView, home_view, list_books, admin_view, librarian_view, member_view, add_book, edit_book, delete_book
 
 
 urlpatterns = [
+    path("login/", LoginView.as_view(template_name='relationship_app/login.html'), name="login"),
+    path("logout/", LogoutView.as_view(template_name='relationship_app/logout.html'), name="logout"),
     path("register/", views.register, name="register"),
     path("login/", views.login_view, name="login"),
     path("logout/", views.logout_view, name="logout"),
