@@ -3,12 +3,12 @@ from django.views.generic.detail import DetailView
 from django.shortcuts import render, redirect
 from .models import Book, Library
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth.forms import UserCreationForm
-from django.views.generic import CreateView
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.views.generic import CreateView, DetailView
 from django.urls import reverse_lazy
+from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.decorators import permission_required
+from .models import Book, Library
 
 def logout_view(request):
     logout(request)
@@ -26,7 +26,7 @@ def login_view(request):
                 return redirect('home')
     else:
         form = AuthenticationForm()
-    return render(request, 'registration/login.html', {'form': form})
+    return render(request, 'relationship_app/login.html', {'form': form})
 
 def register(request):
     if request.method == 'POST':
@@ -40,16 +40,16 @@ def register(request):
             return redirect('home')
     else:
         form = UserCreationForm()
-    return render(request, 'register.html', {'form': form})
+    return render(request, 'relationship_app/register.html', {'form': form})
 
 class RegisterView(CreateView):
     form_class = UserCreationForm
-    success_url = reverse_lazy('login')  # Redirect to login after successful registration
-    template_name = 'register.html'
+    success_url = reverse_lazy('login')
+    template_name = 'relationship_app/register.html'
 
 @login_required
 def home_view(request):
-    return render(request, 'home.html')
+    return render(request, 'relationship_app/home.html')
 
 def list_books(request):
     books = Book.objects.all()  #  this Ensures books are retrieved
