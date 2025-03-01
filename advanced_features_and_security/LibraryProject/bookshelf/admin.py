@@ -1,14 +1,22 @@
 from django.contrib import admin
-from .models import Book;  # ✅ Ensure this line is here
+from .models import Book, CustomUser, UserProfile, Library, LibraryBook# ✅ Ensure this line is here
 from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser
+
+
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'publication_year')
-    list_filter = ('publication_year',)
-    search_fields = ('title', 'author')
-    ordering = ('title',)
 
+@admin.register(Library)
+class LibraryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'location')
+
+@admin.register(LibraryBook)
+class LibraryBookAdmin(admin.ModelAdmin):
+    list_display = ('library', 'book', 'added_by', 'added_at')
+
+admin.site.register(UserProfile)
 
 
 class CustomUserAdmin(UserAdmin):
