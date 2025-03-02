@@ -23,9 +23,39 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-s#jxrwu98s+m8r5i-6tf(tue00$8%wg29uh_5h6cjysq84aktw'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# Security Settings Documentation
+"""
+1. HTTPS Enforcement:
+    - SECURE_SSL_REDIRECT: Forces HTTPS
+    - HSTS headers: Strict transport security
+
+2. Cookie Security:
+    - Secure flags prevent cookie theft
+
+3. CSP:
+    - Restricts external resource loading
+
+4. XSS Protections:
+    - XSS Filter, NOSNIFF prevent script injection
+"""
+
+DEBUG = False
 
 ALLOWED_HOSTS = []
+
+
+# Security headers
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# HTTPS/SSL settings
+SECURE_SSL_REDIRECT = True  # Redirect all HTTP to HTTPS
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
 
 
 # Application definition
@@ -42,6 +72,13 @@ INSTALLED_APPS = [
     
     
 ]
+
+
+CSP_DEFAULT_SRC = ["'self'"]
+CSP_SCRIPT_SRC = ["'self'"]
+CSP_STYLE_SRC = ["'self'"]
+
+
 AUTH_USER_MODEL = 'bookshelf.CustomUser'
 
 MIDDLEWARE = [
@@ -52,6 +89,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'csp.middleware.CSPMiddleware',
 ]
 
 ROOT_URLCONF = 'LibraryProject.urls'
