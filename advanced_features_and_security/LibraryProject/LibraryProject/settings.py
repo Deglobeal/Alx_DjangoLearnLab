@@ -49,13 +49,18 @@ SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = 'DENY'
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
+# Security Settings
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 # HTTPS/SSL settings
-SECURE_SSL_REDIRECT = True  # Redirect all HTTP to HTTPS
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-SECURE_HSTS_SECONDS = 31536000  # 1 year
+
+SECURE_SSL_REDIRECT = True  # Redirects HTTP to HTTPS
+CSRF_COOKIE_SECURE = True  # Ensures CSRF cookies are sent over HTTPS
+SESSION_COOKIE_SECURE = True  # Ensures session cookies are sent over HTTPS
+SECURE_HSTS_SECONDS = 31536000  # Enables HTTP Strict Transport Security (HSTS) for 1 year
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
+
 
 
 # Application definition
