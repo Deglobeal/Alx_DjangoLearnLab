@@ -13,3 +13,10 @@ class BookForm(forms.ModelForm):
         if "<script>" in title:
             raise forms.ValidationError("Invalid title input.")
         return title
+
+
+
+class ExampleForm(forms.Form):
+    title = forms.CharField(max_length=255, required=True, help_text="Enter the title")
+    description = forms.CharField(widget=forms.Textarea, required=False, help_text="Enter a description")
+    published_date = forms.DateField(required=False, widget=forms.SelectDateWidget)
