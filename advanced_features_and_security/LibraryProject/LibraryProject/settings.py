@@ -44,7 +44,6 @@ INSTALLED_APPS = [
 ]
 AUTH_USER_MODEL = 'bookshelf.CustomUser'
 
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -129,30 +128,3 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-import os
-
-# ✅ Disable Debug Mode in Production
-DEBUG = False  # Set to False in production
-ALLOWED_HOSTS = ['yourdomain.com', '127.0.0.1']  # Replace with actual domain
-
-# ✅ Secure Browser Protections
-SECURE_BROWSER_XSS_FILTER = True  # Helps prevent XSS
-X_FRAME_OPTIONS = "DENY"  # Prevents clickjacking
-SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevents MIME-type sniffing
-
-# ✅ Secure Cookies (Only Use This if Running with HTTPS)
-CSRF_COOKIE_SECURE = True  # CSRF cookie only sent over HTTPS
-SESSION_COOKIE_SECURE = True  # Session cookie only sent over HTTPS
-SECURE_SSL_REDIRECT = True  # Redirects all HTTP to HTTPS (Only if HTTPS is enabled)
-
-# ✅ HTTP Strict Transport Security (HSTS)
-SECURE_HSTS_SECONDS = 31536000  # Enforce HTTPS for one year
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Apply HSTS to subdomains
-SECURE_HSTS_PRELOAD = True  # Preload HSTS
-
-# ✅ Content Security Policy (See Step 4 for details)
-CSP_DEFAULT_SRC = ("'self'",)
-CSP_SCRIPT_SRC = ("'self'", "trusted-scripts.com")
-CSP_STYLE_SRC = ("'self'", "trusted-styles.com")
-
