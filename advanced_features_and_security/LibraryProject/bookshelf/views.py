@@ -5,6 +5,7 @@ from .models import Book
 from .forms import BookForm
 # bookshelf/views.py
 from django.views.decorators.http import require_http_methods
+from .forms import ExampleForm
 
 @permission_required('bookshelf.can_view', raise_exception=True)
 def book_list(request):
@@ -39,3 +40,8 @@ def create_book(request):
     else:
         form = BookForm()
     return render(request, "bookshelf/book_form.html", {"form": form})
+
+
+def example_form_view(request):
+    form = ExampleForm()
+    return render(request, 'bookshelf/form_example.html', {'form': form})
