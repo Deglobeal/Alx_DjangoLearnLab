@@ -10,5 +10,5 @@ router.register(r'books_all', BookViewSet, basename='book_all')
 urlpatterns = [
     path('books/', BookList.as_view(), name='book-list'),  # Maps to the BookList viewfrom django.contrib import admin
     path('', include(router.urls)),
-    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),  # Token retrieval endpoint
+    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),  # Token retrieval endpoint to the task 
 ]
