@@ -1,17 +1,18 @@
 from rest_framework import viewsets
 from .models import Book, User, Transaction
 from .serializers import BookSerializer, UserSerializer, TransactionSerializer 
+
 # Create your views here.
 class BookViewSet(viewsets.ModelViewSet):
-    queryset = Book.objects.all()  # Retrieve all books
-    serializer_class = BookSerializer  # Use the BookSerializer
+    queryset = Book.objects.all()  
+    serializer_class = BookSerializer  
     
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()  # Retrieve all books
-    serializer_class = UserSerializer  # Use the BookSerializer
+    queryset = User.objects.all()  
+    serializer_class = UserSerializer  
     
 class TransactionViewSet(viewsets.ModelViewSet):
-    queryset = Transaction.objects.all()  # Retrieve all books
-    serializer_class = TransactionSerializer  # Use the BookSerializer
-    
+    queryset = Transaction.objects.all()  
+    serializer_class = TransactionSerializer  
+
 
