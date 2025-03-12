@@ -1,8 +1,6 @@
 from django.db import models
-
-# Create your models here.
-
-from django.db import models
+from .serializers import BookSerializer
+from django_filters import rest_framework as filters
 
 class Author(models.Model):
     name = models.CharField(max_length=100)  
@@ -21,3 +19,4 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
+    
