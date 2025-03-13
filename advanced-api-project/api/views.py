@@ -21,7 +21,7 @@ class BookListView(generics.ListCreateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
-    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filter_backends = [DjangoFilterBackend, filter.OrderingFilter]
     filterset_class = BookFilter
     ordering_fields = '__all__'  # Allow ordering by ANY Book model field
     ordering = ['title']  # Default ordering (optional)
