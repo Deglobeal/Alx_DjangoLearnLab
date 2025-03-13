@@ -1,8 +1,8 @@
 from rest_framework import generics
-from rest_framework.filters import OrderingFilter  # 1. Import OrderingFilter
+from rest_framework.filters import OrderingFilter
 from .models import Book
 from .serializers import BookSerializer
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 
@@ -21,26 +21,17 @@ class BookListView(generics.ListCreateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
-    filter_backends = [DjangoFilterBackend, OrderingFilter]  # 2. Add to filter backends
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_class = BookFilter
-    ordering_fields = ['title', 'author', 'publication_year']  # 3. Specify allowed fields
+    ordering_fields = '__all__'  # Allow ordering by ANY Book model field
+    ordering = ['title']  # Default ordering (optional)
 
-class BookDetailView(generics.RetrieveAPIView):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-
-class BookCreateView(generics.CreateAPIView):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
-    permission_classes = [IsAuthenticated]
-
-class BookUpdateView(generics.UpdateAPIView):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
-    permission_classes = [IsAuthenticated]
-
-class BookDeleteView(generics.DestroyAPIView):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
-    permission_classes = [IsAuthenticated]
+    # For explicit documentation (optional but recommended):
+    # Emphasize priority fields in docstrings
+    def get_queryset(self):
+        """
+        Returns books with optional filtering and ordering.
+        Orderable fields: title, publication_year, author, etc.
+        Example: ?ordering=-publication_year (descending order)
+        """
+        return super().get_queryset()
