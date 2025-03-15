@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django_restframework import generics
 from .models import Book
 from rest_framework import generics, filters
 from .serializers import BookSerializer
@@ -14,7 +13,7 @@ class BookListView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 #these is used for filterin g to allow the user to search,order or filter books by title, author, or publication year    
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    filterset_fiels = ['title', 'author', 'publication_year']
+    filterset_fields = ['title', 'author', 'publication_year'] 
     search_fields = ['title', 'author', 'publication_year']
     ordering_fields = ['title', 'publication_year']
 
