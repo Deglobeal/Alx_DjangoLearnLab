@@ -55,7 +55,7 @@ ROOT_URLCONF = 'django_blog.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -66,6 +66,14 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+STATIC_URL = '/static/'
+MEDIA_ROOT = '/media/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    
 ]
 
 WSGI_APPLICATION = 'django_blog.wsgi.application'
