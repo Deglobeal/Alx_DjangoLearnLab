@@ -18,9 +18,10 @@ Including another URLconf
 # django_blog/urls.py
 from django.contrib import admin
 from django.urls import path, include
-from django_blog import views
+from blog import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home/', views.home_view, name='home'), 
+    path('', views.homepage, name='home'),
+    path('', include('blog.urls', namespace='blog')),
 ]
