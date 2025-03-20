@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Django Blog{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    
+
+    <div class="content">
+        {% block content %}
+        <!-- Page-specific content goes here -->
+        {% extends "base.html" %}
+{% block content %}
+    <h2>Register</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Register</button>
+    </form>
+    <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+{% endblock %}
+        {% endblock %}
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Django Blog</p>
+    </footer>
+
+    <script src="{% static 'js/scripts.js' %}" defer></script>
+</body>
+</html>
