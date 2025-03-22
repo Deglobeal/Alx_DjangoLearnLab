@@ -12,5 +12,14 @@
     <li><p>Check out my <a href="/">Home page</p></li>
     <li><p>Check out my <a href="/about">About page</p></li>
     </ul>
+
+    {%for Post in Post%}
+        <article class ="post">
+            <h2>{{ post.tittle }}</h2>
+            <p>{{ post.date }}</p>
+            <p>{{ post.body }}</p>
+
+        </article>
+    {% endfor %}
 {% endblock content %}
     
