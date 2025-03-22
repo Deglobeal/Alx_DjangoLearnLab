@@ -13,13 +13,22 @@
     <li><p>Check out my <a href="/about">About page</p></li>
     </ul>
 
-    {%for Post in Post%}
-        <article class ="post">
-            <h2>{{ post.tittle }}</h2>
-            <p>{{ post.date }}</p>
-            <p>{{ post.body }}</p>
-
-        </article>
+    {% for post in blog %}  <!-- Changed variable name -->
+    <article class="post">
+        <h2 class="post-title">
+            <a href="{% url 'page' post.slug %}">
+            {{ post.title }}
+        </h2>
+        <div class="post-meta">
+            <span class="author">By {{ post.author.username }}</span>
+            <span class="date">{{ post.published_date|date:"F d, Y" }}</span>
+        </div>
+        <div class="post-content">
+            {{ post.content|linebreaks }}
+        </div>
+    </article>
+        {% empty %}
+        <p>No posts available yet.</p>
     {% endfor %}
 {% endblock content %}
     
