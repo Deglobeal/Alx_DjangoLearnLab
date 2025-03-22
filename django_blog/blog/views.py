@@ -8,7 +8,7 @@ from .models import Post
 
 class HomeView(ListView):
     model = Post
-    template_name = 'base.html'
+    template_name = 'home.html'
     
 class PostDetailVew(DetailView):
     model = Post
