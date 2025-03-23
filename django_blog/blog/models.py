@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils import timezone
+from taggit.managers import TaggableManager
 
 class Post(models.Model):
     title = models.CharField(max_length=255)
@@ -31,3 +32,7 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"Comment by {self.author} on {self.post.title}"
+    
+class Post(models.Model):
+    # Existing fields
+    tags = TaggableManager(blank=True)

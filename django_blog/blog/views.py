@@ -4,9 +4,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse, reverse_lazy
 from .models import Post
+from django.db.models import Q
 from .forms import CommentForm, PostForm, EditForm, CustomUserCreationForm, UserUpdateForm
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Comment
+from taggit.models import Tag
+
+
+
 class PostListView(ListView):
     model = Post
     template_name = 'blog/post_list.html'
@@ -118,3 +123,22 @@ class PostDetailView(DetailView):
         context['comment_form'] = CommentForm()
         context['comments'] = self.object.comments.all().order_by('-created_at')
         return context
+    
+class TagView(ListView):
+    model = Post
+    template_name = 'blog/tagged_posts.html'
+    
+    def get_queryset(self):
+        return Post.objects.filter(tags__slug=self.kwargs.get('tag'))
+
+class SearchView(ListView):
+    model = Post
+    template_name = 'blog/search_results.html'
+    
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        return Post.objects.filter(
+            Q(title__icontains=query) |
+            Q(content__icontains=query) |
+            Q(tags__name__icontains=query)
+        ).distinct()

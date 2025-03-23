@@ -49,5 +49,15 @@
 </div>
 
 <br/><br/>
+
+<div class="tags-section">
+    {% for tag in post.tags.all %}
+        <a href="{% url 'posts_by_tag' tag.slug %}" class="badge badge-primary">
+            {{ tag.name }}
+        </a>
+    {% endfor %}
+</div>
+
+<br/><br/>
 <a href="{% url 'home' %}">Back</a>  <!-- Page-specific content goes here -->
 {% endblock %}
