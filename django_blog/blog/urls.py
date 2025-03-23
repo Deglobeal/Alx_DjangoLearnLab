@@ -1,7 +1,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from .views import (
-    HomeView, PostDetailView,
+    HomeView, PostDetailView, PostListView,
     PostCreateView, PostUpdateView, PostDeleteView,
     register, profile
 )
@@ -9,10 +9,11 @@ from .views import (
 urlpatterns = [
     # Post-related URLs
     path('', HomeView.as_view(), name="home"),
-    path('post/<int:pk>/', PostDetailView.as_view(), name='post_detail'),
-    path('post/new/', PostCreateView.as_view(), name='post_new'),
-    path('post/<int:pk>/update/', PostUpdateView.as_view(), name='post_update'),
-    path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post_delete'),
+    path('posts/', PostListView.as_view(), name='post_list'),
+    path('posts/new/', PostCreateView.as_view(), name='post_create'),
+    path('posts/<int:pk>/', PostDetailView.as_view(), name='post_detail'),
+    path('posts/<int:pk>/edit/', PostUpdateView.as_view(), name='post_update'),
+    path('posts/<int:pk>/delete/', PostDeleteView.as_view(), name='post_delete'),
     
     # Authentication URLs
     path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
