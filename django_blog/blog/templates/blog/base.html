@@ -13,7 +13,10 @@
             <ul>
     {%if user.is_authenticated%}
     <li><a href="{% url 'post_new' %}">Add Posts</a></li>
-    <li><a href="{% url 'logout' %}">logout</a></li>
+    <li><form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form></li>
     {% else %}
     <li><a href="{% url 'register' %}">Register</a></li>
     <li><a href="{% url 'login' %}">login</a></li>
