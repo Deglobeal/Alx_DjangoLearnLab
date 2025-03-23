@@ -21,10 +21,14 @@ urlpatterns = [
     path('register/', register, name='register'),
     path('profile/', profile, name='profile'),
     
-    path('posts/<int:post_pk>/comments/new/', 
-        CommentCreateView.as_view(), name='comment_create'),
-    path('comments/<int:pk>/edit/', 
-        CommentUpdateView.as_view(), name='comment_update'),
-    path('comments/<int:pk>/delete/', 
-        CommentDeleteView.as_view(), name='comment_delete'),
-]
+    # Comment URLs (NEW PATTERNS ADDED HERE)
+    path('post/<int:post_pk>/comments/new/', 
+        CommentCreateView.as_view(), 
+        name='comment_create'),
+    path('comment/<int:pk>/update/', 
+        CommentUpdateView.as_view(), 
+        name='comment_update'),
+    path('comment/<int:pk>/delete/', 
+        CommentDeleteView.as_view(), 
+        name='comment_delete'),
+    ]
