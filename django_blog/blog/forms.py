@@ -67,8 +67,12 @@ class PostForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'content': forms.Textarea(attrs={'class': 'form-control'}),
-            'tags': TagWidget(attrs={  # Replace existing tags widget
-                'class': 'form-control',
-                'placeholder': 'Comma-separated tags'
-            }),
+            'tags': TagWidget(attrs={'class': 'form-control'})
         }
+
+class UserUpdateForm(forms.ModelForm):
+    email = forms.EmailField(required=True)
+    
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'first_name', 'last_name']
