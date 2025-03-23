@@ -60,6 +60,7 @@ class CommentForm(forms.ModelForm):
         }
         
 
+
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
@@ -67,7 +68,10 @@ class PostForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'content': forms.Textarea(attrs={'class': 'form-control'}),
-            'tags': TagWidget(attrs={'class': 'form-control'})
+            'tags': TagWidget(attrs={
+                'class': 'form-control',
+                'placeholder': 'Comma-separated tags'
+            }),  # Changed from TextInput to TagWidget
         }
 
 class UserUpdateForm(forms.ModelForm):
