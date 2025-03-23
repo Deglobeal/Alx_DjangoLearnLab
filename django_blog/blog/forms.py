@@ -3,6 +3,7 @@ from django import forms
 from .models import Post
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from taggit.forms import TagWidget
 
 class PostForm(forms.ModelForm):
     class Meta:
@@ -66,6 +67,8 @@ class PostForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'content': forms.Textarea(attrs={'class': 'form-control'}),
-            'tags': forms.TextInput(attrs={'class': 'form-control', 
-                    'placeholder': 'Comma-separated tags'}),
+            'tags': TagWidget(attrs={  # Replace existing tags widget
+                'class': 'form-control',
+                'placeholder': 'Comma-separated tags'
+            }),
         }
