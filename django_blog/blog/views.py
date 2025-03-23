@@ -45,31 +45,8 @@ class RegisterView(CreateView):
 class ProfileView(LoginRequiredMixin, TemplateView):
     template_name = 'blog/profile.html'
 
+    # Pass user data to the template
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['user'] = self.request.user
-        
-        # Initialize forms with current user data for GET requests
-        context['user_form'] = UserUpdateForm(instance=self.request.user)
-        context['profile_form'] = ProfileUpdateForm(instance=self.request.user.profile)
         return context
-
-    def post(self, request, *args, **kwargs):
-        # Handle POST request with submitted data
-        user_form = UserUpdateForm(request.POST, instance=request.user)
-        profile_form = ProfileUpdateForm(
-            request.POST, 
-            request.FILES, 
-            instance=request.user.profile
-        )
-
-        if user_form.is_valid() and profile_form.is_valid():  # Check validity
-            user_form.save()  # Save User model data
-            profile_form.save()  # Save Profile model data
-            return redirect('profile')  # Redirect to refresh page
-
-        # If invalid, re-render template with errors
-        context = self.get_context_data()
-        context['user_form'] = user_form
-        context['profile_form'] = profile_form
-        return self.render_to_response(context)
