@@ -3,6 +3,9 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from .models import Post
 from .forms import PostForm, EdithForm
 from django.urls import reverse_lazy
+from django.contrib.auth.forms import UserCreationForm
+from django.views.generic import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin 
 
 class HomeView(ListView):
     model = Post
@@ -28,3 +31,17 @@ class PostDeleteView(DeleteView):
     model = Post
     template_name = 'blog/delete.html'
     success_url = reverse_lazy('home')
+    
+class RegisterView(CreateView):
+    form_class = UserCreationForm  # Or your custom registration form
+    template_name = 'blog/register.html'
+    success_url = reverse_lazy('login') 
+    
+class ProfileView(LoginRequiredMixin, TemplateView):
+    template_name = 'blog/profile.html'
+
+    # Pass user data to the template
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user'] = self.request.user
+        return context
