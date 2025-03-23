@@ -1,6 +1,9 @@
 {% extends 'blog/base.html' %}
 {% block content %}
-<h1>Welcome, {{ user.username }}!</h1>
-<p>Email: {{ user.email }}</p>
-<a href="{% url 'logout' %}">Logout</a><!-- Page-specific content goes here -->
+<h2>Profile</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Update Profile</button>
+</form><!-- Page-specific content goes here -->
 {% endblock %}
