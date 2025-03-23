@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog',
     'User',
+    'taggit',
+
 ]
 
 MIDDLEWARE = [
@@ -138,3 +140,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'profile'
 LOGOUT_REDIRECT_URL = 'home'
+TAGGIT_CASE_INSENSITIVE = True
+TAGGIT_TAGS_FROM_STRING = 'taggit.utils.parse_tags'
+TAGGIT_STRING_FROM_TAGS = 'taggit.utils.join_tags'
