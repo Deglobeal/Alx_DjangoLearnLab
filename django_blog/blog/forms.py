@@ -1,3 +1,4 @@
+from tokenize import Comment
 from django import forms
 from .models import Post
 from django.contrib.auth.forms import UserCreationForm
@@ -43,3 +44,16 @@ class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'first_name', 'last_name']   
+        
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content']
+        widgets = {
+            'content': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': 'Write your comment here...'
+            })
+        }
