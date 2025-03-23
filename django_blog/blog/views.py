@@ -22,6 +22,11 @@ class PostCreateView(CreateView):
     form_class = PostForm
     template_name = 'blog/add_post.html'
     
+    def form_valid(self, form):
+        # Automatically handles POST and saves the form
+        form.instance.author = self.request.user  # Assign the current user
+        return super().form_valid(form) 
+    
 class PostUpdateView(UpdateView):
     model = Post
     form_class = EdithForm
