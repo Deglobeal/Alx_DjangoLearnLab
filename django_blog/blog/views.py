@@ -6,25 +6,25 @@ from django.urls import reverse_lazy
 
 class HomeView(ListView):
     model = Post
-    template_name = 'home.html'
+    template_name = 'blog/home.html'
     ordering = ['-published_date']
     
 class PostDetailView(DetailView):
     model = Post
-    template_name = 'post_details.html'
+    template_name = 'blog/post_details.html'
     
     
 class PostCreateView(CreateView):
     model = Post
     form_class = PostForm
-    template_name = 'add_post.html'
+    template_name = 'blog/add_post.html'
     
 class PostUpdateView(UpdateView):
     model = Post
     form_class = EdithForm
-    template_name = 'update.html'
+    template_name = 'blog/update.html'
     
 class PostDeleteView(DeleteView):
     model = Post
-    template_name = 'delete.html'
+    template_name = 'blog/delete.html'
     success_url = reverse_lazy('home')
