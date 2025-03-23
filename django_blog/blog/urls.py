@@ -1,10 +1,12 @@
 from django.urls import path
-from .views import HomeView, PostDetailVew, AddPostView, UpdatePostView, DeletePostView
+# Corrected import line in urls.py
+from .views import HomeView, PostDetailView, PostUpdateView, PostDeleteView
+from . import views
 
 urlpatterns = [
     path('', HomeView.as_view(), name="home"),
-    path('post/<int:pk>', PostDetailVew.as_view(), name="post-detail"),
-    path('add_post/', AddPostView.as_view(), name="add_post"),
-    path('post/edit/<int:pk>', UpdatePostView.as_view(), name="update_post"),
-    path('post/delete/<int:pk>', DeletePostView.as_view(), name="delete_post"),
+    path('post/<int:pk>/', views.PostDetailView.as_view(), name='post_detail'),
+    path('post/new/', views.PostCreateView.as_view(), name='post_new'),
+    path('post/<int:pk>/update/', views.PostUpdateView.as_view(), name='post_update'),
+    path('post/<int:pk>/delete/', views.PostDeleteView.as_view(), name='post_delete'),
 ]

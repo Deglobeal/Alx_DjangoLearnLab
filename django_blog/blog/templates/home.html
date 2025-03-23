@@ -3,13 +3,13 @@
     <ul>
     <h1>Home page</h1>
     {% for post in object_list %}
-    <li><a href="{% url 'post-detail' post.pk %}">{{post.title}}</a> - 
+    <li><a href="{% url 'post_detail' post.pk %}">{{post.title}}</a> - 
     {{post.author.first_name}} - 
     {{post.author.last_name}} - 
     <small>
-        <a href="{% url 'update_post' post.pk %}">Edith</a>
+        <a href="{% url 'post_update' post.pk %}">Edith</a>
     
-        <a href="{% url 'delete_post' post.pk %}">Delete</a>
+        <a href="{% url 'post_delete' post.pk %}">Delete</a>
     </small><br/>
     {{post.content}}
 

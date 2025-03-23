@@ -12,7 +12,7 @@
         <nav>
             <ul>
     {%if user.is_authenticated%}
-    <li><a href="{% url 'add_post' %}">Add Posts</a></li>
+    <li><a href="{% url 'post_new' %}">Add Posts</a></li>
     <li><a href="{% url 'logout' %}">logout</a></li>
     {% else %}
     <li><a href="{% url 'register' %}">Register</a></li>
