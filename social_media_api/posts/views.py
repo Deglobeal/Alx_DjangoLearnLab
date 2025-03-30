@@ -33,3 +33,35 @@ class FeedView(generics.ListAPIView):
         # Get users the current user is following
         following_users = self.request.user.following.all()
         return Post.objects.filter(author__in=following_users).order_by
+    
+    
+
+class LikePostView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Post.objects.all()
+
+    def post(self, request, *args, **kwargs):
+        post = self.get_object()
+        like, created = Like.objects.get_or_create(user=request.user, post=post)
+        
+        if created:
+            # Create notification
+            Notification.objects.create(
+                recipient=post.author,
+                actor=request.user,
+                verb='liked your post',
+                target=post
+            )
+            return Response({'status': 'Post liked'}, status=status.HTTP_201_CREATED)
+        return Response({'error': 'Post already liked'}, status=status.HTTP_400_BAD_REQUEST)
+
+class UnlikePostView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Post.objects.all()
+
+    def delete(self, request, *args, **kwargs):
+        post = self.get_object()
+        deleted = Like.objects.filter(user=request.user, post=post).delete()
+        if deleted[0] > 0:
+            return Response({'status': 'Post unliked'})
+        return Response({'error': 'Post not liked'}, status=status.HTTP_400_BAD_REQUEST)
