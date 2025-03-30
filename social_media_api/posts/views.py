@@ -40,10 +40,7 @@ class LikePostView(generics.GenericAPIView):
     
     def post(self, request, pk, *args, **kwargs):
         post = get_object_or_404(Post, pk=pk)
-        like, created = Like.objects.get_or_create(
-            user=request.user, 
-            post=post
-        )
+        like, created = Like.objects.get_or_create()
         
         if created:
             Notification.objects.create(
