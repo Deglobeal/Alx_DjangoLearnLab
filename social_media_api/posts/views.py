@@ -1,5 +1,8 @@
-from rest_framework import viewsets, permissions, generics
-from .models import Post, Comment
+from django.shortcuts import get_object_or_404
+from rest_framework import viewsets, permissions, generics, status
+from rest_framework.response import Response
+from .models import Post, Comment, Like
+from notifications.models import Notification
 from .serializers import PostSerializer, CommentSerializer
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
@@ -23,29 +26,26 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
-        
 
 class FeedView(generics.ListAPIView):
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        # Get users the current user is following
         following_users = self.request.user.following.all()
-        return Post.objects.filter(author__in=following_users).order_by
-    
-    
+        return Post.objects.filter(author__in=following_users).order_by('-created_at')
 
 class LikePostView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    queryset = Post.objects.all()
-
-    def post(self, request, *args, **kwargs):
-        post = self.get_object()
-        like, created = Like.objects.get_or_create(user=request.user, post=post)
+    
+    def post(self, request, pk, *args, **kwargs):
+        post = get_object_or_404(Post, pk=pk)
+        like, created = Like.objects.get_or_create(
+            user=request.user, 
+            post=post
+        )
         
         if created:
-            # Create notification
             Notification.objects.create(
                 recipient=post.author,
                 actor=request.user,
@@ -57,11 +57,14 @@ class LikePostView(generics.GenericAPIView):
 
 class UnlikePostView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    queryset = Post.objects.all()
-
-    def delete(self, request, *args, **kwargs):
-        post = self.get_object()
-        deleted = Like.objects.filter(user=request.user, post=post).delete()
+    
+    def delete(self, request, pk, *args, **kwargs):
+        post = get_object_or_404(Post, pk=pk)
+        deleted = Like.objects.filter(
+            user=request.user, 
+            post=post
+        ).delete()
+        
         if deleted[0] > 0:
             return Response({'status': 'Post unliked'})
         return Response({'error': 'Post not liked'}, status=status.HTTP_400_BAD_REQUEST)
