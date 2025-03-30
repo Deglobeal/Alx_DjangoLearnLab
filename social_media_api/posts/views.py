@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404
+from rest_framework.generics import get_object_or_404
 from rest_framework import viewsets, permissions, generics, status
 from rest_framework.response import Response
 from .models import Post, Comment, Like
@@ -59,12 +59,8 @@ class UnlikePostView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
     
     def delete(self, request, pk, *args, **kwargs):
-        post = get_object_or_404(Post, pk=pk)
-        deleted = Like.objects.filter(
-            user=request.user, 
-            post=post
-        ).delete()
-        
+        post = generics.get_object_or_404(Post, pk=pk)
+        deleted = Like.objects.filter(user=request.user, post=post).delete()
         if deleted[0] > 0:
             return Response({'status': 'Post unliked'})
         return Response({'error': 'Post not liked'}, status=status.HTTP_400_BAD_REQUEST)
