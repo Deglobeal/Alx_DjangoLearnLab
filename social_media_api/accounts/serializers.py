@@ -1,20 +1,22 @@
 from rest_framework import serializers
-from .models import CustomUser
+from django.contrib.auth import get_user_model
+from .models import CustomUser  # If using custom user model
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
+    password = serializers.CharField(
+        write_only=True,
+        style={'input_type': 'password'}
+    )
 
     class Meta:
-        model = CustomUser
-        fields = ('username', 'email', 'password', 'bio', 'profile_picture')
+        model = get_user_model()
+        fields = ['username', 'email', 'password', 'bio', 'profile_picture']
         extra_kwargs = {
-            'password': {'write_only': True},
-            'bio': {'required': False, 'allow_blank': True},
-            'profile_picture': {'required': False},
+            'password': {'write_only': True}
         }
 
     def create(self, validated_data):
-        user = CustomUser.objects.create_user(
+        user = get_user_model().objects.create_user(
             username=validated_data['username'],
             email=validated_data['email'],
             password=validated_data['password'],
@@ -24,9 +26,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         return user
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    followers = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-
     class Meta:
-        model = CustomUser
-        fields = ('id', 'username', 'email', 'bio', 'profile_picture', 'followers')
-        read_only_fields = ('id', 'username', 'followers')
+        model = get_user_model()
+        fields = ['id', 'username', 'email', 'bio', 'profile_picture', 'followers']
+        read_only_fields = ['id', 'username', 'followers']

@@ -5,17 +5,19 @@ from .serializers import UserRegistrationSerializer, UserProfileSerializer
 
 class RegisterView(generics.CreateAPIView):
     serializer_class = UserRegistrationSerializer
-    permission_classes = (permissions.AllowAny,)
+    permission_classes = [permissions.AllowAny]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
+        
+        # Token creation happens in the view
         token, created = Token.objects.get_or_create(user=user)
+        
         return Response({
-            'token': token.key,
-            'user_id': user.pk,
-            'email': user.email
+            'user': serializer.data,
+            'token': token.key
         }, status=status.HTTP_201_CREATED)
 
 class UserProfileView(generics.RetrieveUpdateAPIView):
