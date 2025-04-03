@@ -94,7 +94,14 @@ WSGI_APPLICATION = 'social_media_api.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'social_api',      # Replace with your DB name
+        'USER': 'root',      # Replace with your DB username
+        'PASSWORD': 'Dononye12@123',        # Replace with your DB password
+        'HOST': 'Localhost',  # PA-provided host
+        'PORT': '3306',  # Default MySQL port (optional but recommended)
+    }
 }
 
 
